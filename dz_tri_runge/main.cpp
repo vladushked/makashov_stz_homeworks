@@ -1,31 +1,30 @@
 #include <iostream>
 #include <fstream>
-#define USE_MATH_DEFINES
 #include <cmath>
 #include <vector>
 
 using namespace std;
 
-float f(float x, float y, float a, float b){
+double f(double x, double y, double a, double b){
     return (a*x - b*y);
 }
 
-float runge(float t, float y0, float step, float a, float b){
-    float k1, k2, k3, k4;
+double runge(double t, double y0, double step, double a, double b){
+    double k1, k2, k3, k4;
     k1 = f(t, y0, a, b);
     k2 = f(t+step/2, y0+step*k1/2, a, b);
     k3 = f(t+step/2, y0+step*k2/2, a, b);
     k4 = f(t+step, y0+step*k3, a, b);
-    float y = y0 + step*(k1+2*k2+2*k3+k4)/6;
+    double y = y0 + step*(k1+2*k2+2*k3+k4)/6;
     return y;
 }
 
 int main()
 {
-    float a = 0;
-    float b = 0;
-    float d = 0;
-    float step = 0.01;
+    double a = 0;
+    double b = 0;
+    double d = 0;
+    double step = 0.01;
 
     cout << "< Program started >" << endl;
     ifstream inFile;
@@ -46,22 +45,22 @@ int main()
         cout << "< a = " << a << "\tb = " << b << "\td = " << d << " >" << endl;
 
         // RUNGE HERE //
-        float initValue = d;
-        float c = d + a/(b*b);
-        float max_diff = 0;
-        std::vector<float> time, y;
+        double initValue = d;
+        double c = d + a/(b*b);
+        double max_diff = 0;
+        std::vector<double> time, y;
         time.push_back(0);
         y.push_back(initValue);
-        for(float t = step; t < 1; t+=step) {
-            float dy = runge(time.back(), y.back(), step, a, b);
+        for(double t = step; t < M_PI; t += step) {
+            double dy = runge(time.back(), y.back(), step, a, b);
             time.push_back(t);
             y.push_back(dy);
         }
-        for (int i=0; i<time.size(); i++)
+        for (unsigned int i = 0; i < time.size(); i++)
         {
-            float func = (a/b)*(time[i] - 1/b) + c*exp(-b*time[i]);
+            double func = (a/b)*(time[i] - 1/b) + c*exp(-b*time[i]);
             //cout << "u(t) = " << func << "\ty(t) = " << y[i] << endl;
-            float diff = abs(y[i] - func);
+            double diff = abs(y[i] - func);
             if(diff > max_diff) {
                 max_diff = diff;
             }
