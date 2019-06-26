@@ -24,7 +24,7 @@ int main()
     double a = 0;
     double b = 0;
     double d = 0;
-    double step = 0.01;
+    double step = 0.0001;
 
     cout << "< Program started >" << endl;
     ifstream inFile;
